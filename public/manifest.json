@@ -1,0 +1,26 @@
+{
+  "name": "ThirdSpaceList",
+  "short_name": "ThirdSpace",
+  "description": "Find your perfect work-friendly cafes, libraries, and community spots",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/next.svg",
+      "sizes": "180x38",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "lifestyle", "social"],
+  "screenshots": []
+}
