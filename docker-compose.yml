@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  typesense:
+    image: typesense/typesense:29.0
+    restart: on-failure
+    ports:
+      - "8108:8108"
+    environment:
+      TYPESENSE_DATA_DIR: /data
+      TYPESENSE_API_KEY: dev-api-key-123
+      TYPESENSE_ENABLE_CORS: true
+    volumes:
+      - ./typesense-data:/data
+    command: '--data-dir /data --api-key=dev-api-key-123 --listen-port 8108 --enable-cors'

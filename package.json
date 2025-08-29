@@ -8,9 +8,8 @@
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
-    "seed-places": "tsx scripts/seed-places.ts",
-    "migrate": "supabase db push",
-    "type-check": "tsc --noEmit"
+    "seed-supabase": "tsx scripts/seed-places.ts",
+    "sync-typesense": "tsx scripts/sync-to-typesense.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
@@ -22,6 +21,7 @@
     "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "typesense": "^2.0.0",
     "zustand": "^4.5.5"
   },
   "devDependencies": {

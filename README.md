@@ -19,17 +19,21 @@ A mobile-first PWA for discovering work-friendly cafes, libraries, and community
 
 - **Frontend**: Next.js 15 (App Router), React 19, TypeScript
 - **Database**: Supabase (PostgreSQL + PostGIS for geospatial data)
+- **Search**: Typesense (Fast search engine with geolocation + filtering)
 - **Maps**: Mapbox GL JS with clustering
 - **Styling**: TailwindCSS
 - **State Management**: Zustand + TanStack Query
 - **PWA**: Service Worker + Web App Manifest
 - **APIs**: OpenStreetMap data via Overpass API
+- **DevOps**: Just command runner + Docker Compose
 
 ## Quick Start 🚀
 
 ### Prerequisites
 
 - Node.js 18+
+- [Just](https://github.com/casey/just) command runner
+- Docker & Docker Compose
 - A Supabase project
 - A Mapbox account and access token
 
@@ -40,8 +44,9 @@ A mobile-first PWA for discovering work-friendly cafes, libraries, and community
 git clone https://github.com/jonaylor89/thirdspacelist.git
 cd thirdspacelist
 
-# Install dependencies
-npm install
+# Install Just command runner
+# macOS: brew install just
+# Linux: curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/bin
 
 # Copy environment template
 cp .env.example .env.local
@@ -60,49 +65,52 @@ SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 # Mapbox Configuration
 NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_mapbox_access_token
 
-# App Configuration
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+# Typesense Configuration (for development)
+TYPESENSE_HOST=localhost
+TYPESENSE_PORT=8108
+TYPESENSE_PROTOCOL=http
+TYPESENSE_API_KEY=dev-api-key-123
 ```
 
-### 3. Database Setup
+### 3. Complete Setup
 
-#### Option A: Using Supabase Dashboard
-1. Go to your Supabase project dashboard
-2. Navigate to SQL Editor
-3. Run the migration file: `supabase/migrations/001_initial_schema.sql`
-
-#### Option B: Using Supabase CLI
 ```bash
-# Install Supabase CLI
-npm install -g supabase
-
-# Login and link project
-supabase login
-supabase link --project-ref your_project_ref
-
-# Run migrations
-supabase db push
+# Run complete development setup
+just setup
 ```
 
-### 4. Seed Data (Optional)
+This will:
+- Install dependencies
+- Start Typesense search engine
+- Set up database schema
+- Seed places data from OpenStreetMap
+- Sync data to Typesense
 
-Populate your database with NYC places from OpenStreetMap:
-
-```bash
-# Build the project first
-npm run build
-
-# Run the seeding script
-npm run seed-places
-```
-
-### 5. Start Development Server
+### 4. Start Development
 
 ```bash
-npm run dev
+# Start the development server
+just dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 5. Available Commands
+
+```bash
+# See all available commands
+just
+
+# Common commands:
+just dev              # Start development server
+just check            # Run linting and type checking  
+just typesense        # Start search engine
+just sync-typesense   # Sync data to search
+just seed-places      # Import places from OpenStreetMap
+just health-check     # Check all services
+```
+
+See [DEVELOPMENT.md](DEVELOPMENT.md) for the complete command reference.
 
 ## Database Schema 🗄️
 

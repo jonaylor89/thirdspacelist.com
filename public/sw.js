@@ -1,6 +1,6 @@
-const CACHE_NAME = 'thirdspacelist-v1'
-const STATIC_CACHE = 'static-v1'
-const RUNTIME_CACHE = 'runtime-v1'
+const CACHE_NAME = 'thirdspacelist-v2'
+const STATIC_CACHE = 'static-v2'
+const RUNTIME_CACHE = 'runtime-v2'
 
 // Assets to cache on install (only include existing assets)
 const PRECACHE_ASSETS = [
@@ -11,7 +11,8 @@ const PRECACHE_ASSETS = [
 // API routes to cache with network-first strategy
 const API_ROUTES = [
   '/api/places',
-  '/api/observations'
+  '/api/observations',
+  '/api/search'
 ]
 
 self.addEventListener('install', (event) => {
@@ -72,14 +73,18 @@ async function networkFirstStrategy(request) {
   try {
     const networkResponse = await fetch(request)
     if (networkResponse.ok) {
+      // Only cache successful responses
       cache.put(request, networkResponse.clone())
     }
     return networkResponse
   } catch (error) {
+    console.warn('Network request failed, trying cache:', request.url, error)
     const cacheResponse = await cache.match(request)
     if (cacheResponse) {
+      console.log('Serving from cache:', request.url)
       return cacheResponse
     }
+    console.error('Request failed and no cache available:', request.url)
     throw error
   }
 }
